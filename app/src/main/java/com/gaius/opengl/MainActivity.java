@@ -1,6 +1,5 @@
 package com.gaius.opengl;
 
-import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
@@ -21,8 +20,8 @@ public class MainActivity extends AbsBaseActivity {
         mGlSurfaceView = new GLSurfaceView(getApplicationContext());
         setContentView(mGlSurfaceView);
         mGlSurfaceView.setEGLContextClientVersion(3);
-        GLSurfaceView.Renderer renderer = new ColorRenderer(Color.DKGRAY);
-        //GLSurfaceView.Renderer renderer = new SimpleRenderer();
+        //GLSurfaceView.Renderer renderer = new ColorRenderer(Color.DKGRAY);
+        GLSurfaceView.Renderer renderer = new SimpleRenderer();
         mGlSurfaceView.setRenderer(renderer);
     }
 }
