@@ -22,6 +22,7 @@ public class MainActivity extends AbsBaseActivity {
         setContentView(mGlSurfaceView);
         mGlSurfaceView.setEGLContextClientVersion(3);
         GLSurfaceView.Renderer renderer = new ColorRenderer(Color.DKGRAY);
+        //GLSurfaceView.Renderer renderer = new SimpleRenderer();
         mGlSurfaceView.setRenderer(renderer);
     }
 }
