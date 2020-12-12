@@ -1,4 +1,4 @@
-package com.gaius.opengl;
+package com.gaius.opengl.utils;
 
 import android.opengl.GLES30;
 

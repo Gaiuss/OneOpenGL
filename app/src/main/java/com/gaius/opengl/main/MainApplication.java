@@ -1,4 +1,4 @@
-package com.gaius.opengl;
+package com.gaius.opengl.main;
 
 import android.app.Application;
 

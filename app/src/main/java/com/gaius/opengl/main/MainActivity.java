@@ -1,9 +1,10 @@
-package com.gaius.opengl;
+package com.gaius.opengl.main;
 
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 import com.gaius.common_base.base.AbsBaseActivity;
+import com.gaius.opengl.renderer.ColoredTriangleRenderer;
 import com.gyf.immersionbar.ImmersionBar;
 
 public class MainActivity extends AbsBaseActivity {
