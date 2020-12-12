@@ -10,75 +10,70 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class SimpleRenderer implements GLSurfaceView.Renderer {
+public class ColoredTriangleRenderer implements GLSurfaceView.Renderer {
 
-    private String vertexShader = "#version 300 es \n" //这行是着色器的版本，OpenGL ES 2.0版本可以不写
+    private String vertexShader = "#version 300 es \n"
             + "layout (location = 0) in vec4 vPosition;\n"
+            + "layout (location = 1) in vec4 aColor;\n"
+            + "out vec4 vColor;\n"
             + "void main() { \n"
             + "gl_Position = vPosition;\n"
             + "gl_PointSize = 10.0;\n"
+            + "vColor = aColor;\n"
             + "}\n";
 
-    private String fragmentShader = "#version 300 es \n"
+    private String fragShader = "#version 300 es \n"
             + "precision mediump float;\n"
+            + "in vec4 vColor;\n"
             + "out vec4 fragColor;\n"
             + "void main() { \n"
-            + "fragColor = vec4(1.0,1.0,1.0,1.0);\n"
+            + "fragColor = vColor;\n"
             + "}\n";
 
-    /*private float[] vertexPoints = new float[]{
+    private float color[] = {
+            0.0f, 1.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 0.0f, 1.0f,
+            0.0f, 0.0f, 1.0f, 1.0f
+    };
+
+    /**
+     * 点的坐标
+     */
+    private float[] vertexPoints = new float[]{
             0.0f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f
-    };*/
-    /*private float[] vertexPoints = new float[]{
-            -0.5f, 0.5f, 0.0f,
-            -0.5f, -0.5f, 0.0f,
-            0.0f, 0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.5f, 0.5f, 0.0f
-    };*/
-    /*private float[] vertexPoints = new float[]{
-            -0.75f, -0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f,
-            0.0f, -0.5f, 0.0f,
-            0.5f, 0.5f, 0.0f,
-            0.75f, -0.5f, 0.0f
-    };*/
-    private float[] vertexPoints = new float[]{
-            -0.5f, 0.5f, 0.0f,
-            0.0f, 0.15f, 0.0f,
-            0.0f, -0.4f, 0.0f,
-            0.0f, 0.15f, 0.0f,
-            0.5f, 0.5f, 0.0f
     };
-
-    private static final int FLOAT_SIZE_BYTES = 4;//每个浮点型占4字节空间
 
     private final FloatBuffer vertexBuffer;
 
-    public SimpleRenderer() {
+    private final FloatBuffer colorBuffer;
+
+    public ColoredTriangleRenderer() {
         //分配内存空间,每个浮点型占4字节空间
-        vertexBuffer = ByteBuffer.allocateDirect(vertexPoints.length * FLOAT_SIZE_BYTES)
+        vertexBuffer = ByteBuffer.allocateDirect(vertexPoints.length * 4)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         //传入指定的坐标数据
         vertexBuffer.put(vertexPoints);
         vertexBuffer.position(0);
+
+        colorBuffer = ByteBuffer.allocateDirect(color.length * 4)
+                .order(ByteOrder.nativeOrder()).asFloatBuffer();
+        colorBuffer.put(color);
+        colorBuffer.position(0);
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-        //设置背景颜色
-        GLES30.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+        //设置背景色
+        GLES30.glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
         //编译
         final int vertexShaderId = ShaderHelper.compileVertexShader(vertexShader);
-        final int fragShaderId = ShaderHelper.compileFragShader(fragmentShader);
-
+        final int fragShaderId = ShaderHelper.compileFragShader(fragShader);
         //链接程序片段
         int mProgram = ShaderHelper.linkProgram(vertexShaderId, fragShaderId);
-
-        //在OpenGLES环境中使用程序片段
+        //在OpenGL ES环境中使用程序片段
         GLES30.glUseProgram(mProgram);
     }
 
@@ -96,13 +91,14 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
         //启用顶点的句柄
         GLES30.glEnableVertexAttribArray(0);
 
-        //GLES30.glDrawArrays(GLES30.GL_POINTS, 0, 3);
-        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, 5);
-        //GLES30.glDrawArrays(GLES30.GL_LINE_LOOP, 0, 3);
-        GLES30.glLineWidth(10);
-        //GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);//三角形
+        //绘制三角形颜色
+        GLES30.glEnableVertexAttribArray(1);
+        GLES30.glVertexAttribPointer(1, 4, GLES30.GL_FLOAT, false, 0, colorBuffer);
 
-        //禁止顶点数组的句柄
+        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);
+
+        //禁止顶点数据的句柄
         GLES30.glDisableVertexAttribArray(0);
+        GLES30.glDisableVertexAttribArray(1);
     }
 }
