@@ -4,6 +4,7 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 import com.gaius.common_base.base.AbsBaseActivity;
+import com.gyf.immersionbar.ImmersionBar;
 
 public class MainActivity extends AbsBaseActivity {
 
@@ -13,6 +14,7 @@ public class MainActivity extends AbsBaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
+        ImmersionBar.with(this).init();
         setupViews();
     }
 
@@ -24,4 +26,5 @@ public class MainActivity extends AbsBaseActivity {
         GLSurfaceView.Renderer renderer = new SimpleRenderer();
         mGlSurfaceView.setRenderer(renderer);
     }
+
 }
