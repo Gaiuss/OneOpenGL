@@ -26,10 +26,31 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
             + "fragColor = vec4(1.0,1.0,1.0,1.0);\n"
             + "}\n";
 
-    private float[] vertexPoints = new float[]{
+    /*private float[] vertexPoints = new float[]{
             0.0f, 0.5f, 0.0f,
             -0.5f, -0.5f, 0.0f,
             0.5f, -0.5f, 0.0f
+    };*/
+    /*private float[] vertexPoints = new float[]{
+            -0.5f, 0.5f, 0.0f,
+            -0.5f, -0.5f, 0.0f,
+            0.0f, 0.5f, 0.0f,
+            0.5f, -0.5f, 0.0f,
+            0.5f, 0.5f, 0.0f
+    };*/
+    /*private float[] vertexPoints = new float[]{
+            -0.75f, -0.5f, 0.0f,
+            -0.5f, 0.5f, 0.0f,
+            0.0f, -0.5f, 0.0f,
+            0.5f, 0.5f, 0.0f,
+            0.75f, -0.5f, 0.0f
+    };*/
+    private float[] vertexPoints = new float[]{
+            -0.5f, 0.5f, 0.0f,
+            0.0f, 0.15f, 0.0f,
+            0.0f, -0.4f, 0.0f,
+            0.0f, 0.15f, 0.0f,
+            0.5f, 0.5f, 0.0f
     };
 
     private float color[] = {
@@ -94,10 +115,10 @@ public class SimpleRenderer implements GLSurfaceView.Renderer {
         //GLES30.glVertexAttribPointer(1, 4, GLES30.GL_FLOAT, false, 0, colorBuffer);
 
         //GLES30.glDrawArrays(GLES30.GL_POINTS, 0, 3);
-        //GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, 2);
+        GLES30.glDrawArrays(GLES30.GL_LINE_STRIP, 0, 5);
         //GLES30.glDrawArrays(GLES30.GL_LINE_LOOP, 0, 3);
-        //GLES30.glLineWidth(10);
-        GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);//三角形
+        GLES30.glLineWidth(10);
+        //GLES30.glDrawArrays(GLES30.GL_TRIANGLES, 0, 3);//三角形
 
         //禁止顶点数组的句柄
         GLES30.glDisableVertexAttribArray(0);
